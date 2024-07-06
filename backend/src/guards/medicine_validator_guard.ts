@@ -1,11 +1,11 @@
 import { Guard, textResult, HTTP_STATUS_CODE } from "fortjs";
 
-export class LoanValidatorGuard extends Guard {
+export class MedicineValidatorGuard extends Guard {
 
     async check() {
-        const loan = {
+        const medicine = {
             date: this.body.date,
-            typeOfLoan : this.body.typeOfLoan,
+            typeOfMedicine : this.body.typeOfMedicine,
             place : this.body.place,
             principle : this.body.principle,
             interest : this.body.interest,
@@ -14,10 +14,10 @@ export class LoanValidatorGuard extends Guard {
             borrowerUserId : this.body.borrowerUserId,
             status : this.body.status            
         };
-        const errMsg = this.validate(loan);
+        const errMsg = this.validate(medicine);
         if (errMsg == null) {
-            // pass loan to worker method, so that they dont need to parse again  
-            this.data.loan = loan;
+            // pass medicine to worker method, so that they dont need to parse again  
+            this.data.medicine = medicine;
             // returning null means - guard allows request to pass  
             return null;
         } else {
@@ -25,27 +25,27 @@ export class LoanValidatorGuard extends Guard {
         }
     }
     
-    validate(loan) {
+    validate(medicine) {
         let errMessage;
-            // if (loan.date == null || loan.date.length < 10) {
+            // if (medicine.date == null || medicine.date.length < 10) {
             //     errMessage = "date length should be greater than 10";
             // }
-            // else if (loan.typeOfLoan == null || loan.typeOfLoan.length < 10) {
-            //     errMessage = "typeOfLoan length should be greater than 10";
+            // else if (medicine.typeOfMedicine == null || medicine.typeOfMedicine.length < 10) {
+            //     errMessage = "typeOfMedicine length should be greater than 10";
             // }
-            // else if (loan.place == null || loan.place.length < 10) {
+            // else if (medicine.place == null || medicine.place.length < 10) {
             //     errMessage = "place length should be greater than 10";
             // }
-            // else if (loan.principle == null || loan.principle.length < 10) {
+            // else if (medicine.principle == null || medicine.principle.length < 10) {
             //     errMessage = "principle length should be greater than 10";
             // }
-            // else if (loan.interest == null || loan.interest.length < 10) {
+            // else if (medicine.interest == null || medicine.interest.length < 10) {
             //     errMessage = "interest length should be greater than 10";
             // }
-            // else if (loan.platformId == null || loan.platformId.length < 10) {
+            // else if (medicine.platformId == null || medicine.platformId.length < 10) {
             //     errMessage = "platformId length should be greater than 10";
             // }
-            // else if (loan.status == null || loan.status.length < 10) {
+            // else if (medicine.status == null || medicine.status.length < 10) {
             //     errMessage = "status length should be greater than 10";
             // }
         return errMessage;

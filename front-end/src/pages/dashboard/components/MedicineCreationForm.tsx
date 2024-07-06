@@ -15,36 +15,36 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
 
-export default function LoanCreationForm() {
+export default function MedicineCreationForm() {
     const navigate = useNavigate();
 
     const [open, setOpen] = React.useState<boolean>(false);
 
     interface FormElements extends HTMLFormControlsCollection {
-        date: HTMLInputElement;
-        typeOfLoan: HTMLInputElement;
-        place: HTMLInputElement;
-        principle: HTMLInputElement;
-        interest: HTMLInputElement;
-        platformId: HTMLInputElement;
+        name: HTMLInputElement;
+        price: HTMLInputElement;
+        quantity: HTMLInputElement;
+        image: HTMLInputElement;
+        description: HTMLInputElement;
+        medicineId: HTMLInputElement;
         status: HTMLInputElement;
     }
-    interface LoanFormElement extends HTMLFormElement {
+    interface MedicineFormElement extends HTMLFormElement {
         readonly elements: FormElements;
     }
 
-    interface ILoan { date: string; typeOfLoan: string; place: string; principle: string; interest: string; platformId: string; status: string; };
+    interface IMedicine { name: string; price: string; quantity: string; image: string; description: string; status: string; medicineId: string; };
 
     async function handleSubmition() {
-        // alert("loan request sumbitted" + JSON.stringify(data));
+        // alert("medicine request sumbitted" + JSON.stringify(data));
         try {
-            let data = window.localStorage.getItem("newLoan") || "new loan not updated at client side";
+            let data = window.localStorage.getItem("newMedicine") || "new medicine not updated at client side";
 
-            await axios.post('/loan', JSON.parse(data));
-            alert("Your loan request has been submitted and pending for approval with other participant, please ask them to login into portal and approve this loan")
-            navigate("/loans");
+            await axios.post('/medicine', JSON.parse(data));
+            alert("Your medicine has been updated in blockchain")
+            navigate("/medicines");
 
-            window.localStorage.removeItem("newLoan");
+            window.localStorage.removeItem("newMedicine");
 
         } catch (err) {
             alert(err);
@@ -57,8 +57,8 @@ export default function LoanCreationForm() {
         }
     }
 
-    function setDataInBrowser(newLoan: ILoan) {
-        window.localStorage.setItem("newLoan", JSON.stringify(newLoan));
+    function setDataInBrowser(newMedicine: IMedicine) {
+        window.localStorage.setItem("newMedicine", JSON.stringify(newMedicine));
         setOpen(true);
     }
 
@@ -74,17 +74,17 @@ export default function LoanCreationForm() {
         >
 
             <form
-                onSubmit={(event: React.FormEvent<LoanFormElement>) => {
+                onSubmit={(event: React.FormEvent<MedicineFormElement>) => {
                     event.preventDefault();
                     const formElements = event.currentTarget.elements;
                     const data = {
-                        date: formElements.date.value,
-                        typeOfLoan: formElements.typeOfLoan.innerText,
-                        place: formElements.place.value,
-                        principle: formElements.principle.value,
-                        interest: formElements.interest.value,
-                        platformId: formElements.platformId.value,
-                        status: "approvalPending",
+                        name: formElements.name.value,
+                        price: formElements.price.innerText,
+                        quantity: formElements.quantity.value,
+                        image: formElements.image.value,
+                        description: formElements.description.value,
+                        status: formElements.status.value,
+                        medicineId: formElements.medicineId.value,
                     };
                     //   alert(JSON.stringify(data, null, 2));
                     // handleSubmition(data)
@@ -106,42 +106,38 @@ export default function LoanCreationForm() {
                         boxShadow: 'md',
                     }}
                     variant="outlined"
-                    className="loanForm"
+                    className="medicineForm"
                 >
                     <FormControl required>
-                        <FormLabel>Date</FormLabel>
-                        <Input name="date" type="datetime-local" />
+                        <FormLabel>Name</FormLabel>
+                        <Input name="name" type="text" />
                     </FormControl>
-                    <FormControl required>
-                        <FormLabel>Type Of Loan</FormLabel>
-                        <Select placeholder="Choose one…" id="typeOfLoan">
+                    {/* <FormControl required>
+                        <FormLabel>Type Of Medicine</FormLabel>
+                        <Select placeholder="Choose one…" id="typeOfMedicine">
                             <Option value="lending">Lending</Option>
                             <Option value="borrowing">Borrowing</Option>
                         </Select>
+                    </FormControl> */}
+                    <FormControl required>
+                        <FormLabel>Price</FormLabel>
+                        <Input name="price" type="text" placeholder="price" />
                     </FormControl>
                     <FormControl required>
-                        <FormLabel>Place</FormLabel>
-                        <Input name="place" type="text" placeholder="place" />
+                        <FormLabel>Quantity</FormLabel>
+                        <Input name="quantity" type="number" placeholder="Quantity" />
                     </FormControl>
                     <FormControl required>
-                        <FormLabel>Principle Amount</FormLabel>
-                        <Input name="principle" type="text" placeholder="principle" />
+                        <FormLabel>Image</FormLabel>
+                        <Input name="image" type="file" placeholder="image" />
                     </FormControl>
                     <FormControl required>
-                        <FormLabel>Interest</FormLabel>
-                        <Input name="interest" type="text" placeholder="interest" />
+                        <FormLabel>Description</FormLabel>
+                        <Input name="description" type="text" placeholder="description" />
                     </FormControl>
                     <FormControl required>
-                        <FormLabel>Platform Id</FormLabel>
-                        <Input name="platformId" type="text" placeholder="platformId" />
-                    </FormControl>
-                    <FormControl disabled>
                         <FormLabel>Status</FormLabel>
-                        <Select placeholder="Approval will goes to other parties" id="status">
-                            <Option value="paid">Paid</Option>
-                            <Option value="approvalPending">Pending for approval</Option>
-                            <Option value="cancelled">Cancelled</Option>
-                        </Select>
+                        <Input name="status" type="text" placeholder="status" />
                     </FormControl>
                 </Sheet>
                 <Sheet
@@ -160,7 +156,7 @@ export default function LoanCreationForm() {
                         // onClick={() => {}}
                         type="submit"
                     >
-                        Secure New Loan
+                        Secure New Medicine
                     </Button>
                     <Modal open={open} onClose={() => setOpen(false)}>
                         <ModalDialog variant="outlined" role="alertdialog">
@@ -170,7 +166,7 @@ export default function LoanCreationForm() {
                             </DialogTitle>
                             <Divider />
                             <DialogContent>
-                                Are you sure you want to submit loan into blockchain ?
+                                Are you sure you want to submit medicine into blockchain ?
                             </DialogContent>
                             <DialogActions>
                                 <Button type="submit" value="submit" variant="solid" color="danger" onClick={() => { setOpen(false); handleSubmition() }}>

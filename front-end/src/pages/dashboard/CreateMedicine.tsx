@@ -13,13 +13,13 @@ import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded';
 import Add from '@mui/icons-material/Add';
 
 import Sidebar from './components/Sidebar';
-import LoanTable from './components/LoanTable';
-import LoanList from './components/LoanList';
+import MedicineTable from './components/MedicineTable';
+import MedicineList from './components/MedicineList';
 import Header from './components/Header';
-import LoanCreationForm from './components/LoanCreationForm';
+import MedicineCreationForm from './components/MedicineCreationForm';
 import { useNavigate } from 'react-router-dom';
 
-export default function CreateLoan() {
+export default function CreateMedicine() {
     const navigate = useNavigate()
     return (
     <CssVarsProvider disableTransitionOnChange>
@@ -69,14 +69,14 @@ export default function CreateLoan() {
                 fontWeight={500}
                 onClick={()=>{navigate("/dashboard")}}
               >
-                Loans
+                Medicines
               </Link>
               <Typography color="primary" fontWeight={500} fontSize={12}>
-                Secure New Loan
+                Secure New Medicine
               </Typography>
             </Breadcrumbs>
           </Box>
-          <LoanCreationForm/>
+          <MedicineCreationForm/>
           {/* <Box
             sx={{
               display: 'flex',
@@ -89,18 +89,18 @@ export default function CreateLoan() {
             }}
           >
             <Typography level="h2" component="h1">
-              Secure New Loan
+              Secure New Medicine
             </Typography>
             <Button
               color="primary"
               startDecorator={<Add />}
               size="sm"
             >
-              Secure New Loan in Blockchain
+              Secure New Medicine in Blockchain
             </Button>
           </Box>
-          <LoanTable />
-          <LoanList /> */}
+          <MedicineTable />
+          <MedicineList /> */}
         </Box>
       </Box>
     </CssVarsProvider>

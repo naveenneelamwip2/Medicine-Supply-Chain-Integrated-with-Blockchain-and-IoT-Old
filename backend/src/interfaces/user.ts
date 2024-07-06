@@ -5,9 +5,8 @@ export interface IUser extends Document {
     emailId?: string;
     password?: string;
     contactNumber?: string;
-    // userSecret: string;
-    // platformId?: string;
-    // DOB?: string;
+    address: string;
+    userId?: string;
     organization?: string; 
 }
 

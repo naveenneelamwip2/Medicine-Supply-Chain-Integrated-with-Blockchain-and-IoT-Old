@@ -202,7 +202,7 @@ export default function Sidebar() {
             <ListItemButton onClick={()=>navigate("/dashboard")}>
               <ShoppingCartRoundedIcon />
               <ListItemContent>
-                <Typography level="title-sm">Loans</Typography>
+                <Typography level="title-sm">Medicines</Typography>
               </ListItemContent>
             </ListItemButton>
           </ListItem>

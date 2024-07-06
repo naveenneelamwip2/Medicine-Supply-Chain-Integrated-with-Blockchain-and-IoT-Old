@@ -49,16 +49,16 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   return 0;
 }
 
-type Loan = 'asc' | 'desc';
+type Medicine = 'asc' | 'desc';
 
 function getComparator<Key extends keyof any>(
-  loan: Loan,
+  medicine: Medicine,
   orderBy: Key,
 ): (
   a: { [key in Key]: number | string },
   b: { [key in Key]: number | string },
 ) => number {
-  return loan === 'desc'
+  return medicine === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
@@ -70,9 +70,9 @@ function getComparator<Key extends keyof any>(
 function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
   const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
   stabilizedThis.sort((a, b) => {
-    const loan = comparator(a[0], b[0]);
-    if (loan !== 0) {
-      return loan;
+    const medicine = comparator(a[0], b[0]);
+    if (medicine !== 0) {
+      return medicine;
     }
     return a[1] - b[1];
   });
@@ -100,33 +100,35 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
 // }
 
 
-interface ILoan {
+interface IMedicine {
   _id: string;
-  date: string;
-  typeOfLoan: string;
-  place: string;
-  principle: string;
-  interest: string;
-  platformId: string;
-  status: string;
+  medicineId : string;
+  name: string;
+  price : string;
+  quantity : string;
+  image : string;
+  description : string;
+  lastUpdateDate : string;
+  status : string;
 }
 
 
-export default function LoanTable() {
+
+export default function MedicineTable() {
   const navigate = useNavigate();
 
-  const [loan, setLoan] = React.useState<Loan>('desc');
+  const [medicine, setMedicine] = React.useState<Medicine>('desc');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [open, setOpen] = React.useState(false);
 
   const [loading, setLoading] = useState(true);
-  const [rows, setRows] = useState<ILoan[]>([])
+  const [rows, setRows] = useState<IMedicine[]>([])
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const { data: response } = await axios.get('/loan');
+        const { data: response } = await axios.get('/medicine');
         setRows(response);
       } catch (error: any) {
         console.error(error.message);
@@ -139,9 +141,9 @@ export default function LoanTable() {
 
   async function approvalHandler(data:any) {
     try {
-      const { data: response } = await axios.put('/loan',data);
-      alert("Loan approved ")
-      navigate("/loans");
+      const { data: response } = await axios.put('/medicine',data);
+      alert("Medicine approved ")
+      navigate("/medicines");
     } catch (error: any) {
       console.error(error.message);
     }
@@ -238,13 +240,13 @@ export default function LoanTable() {
         }}
       >
         <FormControl sx={{ flex: 1 }} size="sm">
-          <FormLabel>Search for loan</FormLabel>
+          <FormLabel>Search for medicine</FormLabel>
           <Input size="sm" placeholder="Search" startDecorator={<SearchIcon />} />
         </FormControl>
         {renderFilters()}
       </Box>
       <Sheet
-        className="LoanTableContainer"
+        className="MedicineTableContainer"
         variant="outlined"
         sx={{
           display: { xs: 'none', sm: 'initial' },
@@ -289,36 +291,37 @@ export default function LoanTable() {
                   sx={{ verticalAlign: 'text-bottom' }}
                 />
               </th>
-              <th style={{ width: 120, padding: '12px 6px' }}>
+              {/* <th style={{ width: 120, padding: '12px 6px' }}>
                 <Link
                   underline="none"
                   color="primary"
                   component="button"
-                  onClick={() => setLoan(loan === 'asc' ? 'desc' : 'asc')}
+                  onClick={() => setMedicine(medicine === 'asc' ? 'desc' : 'asc')}
                   fontWeight="lg"
                   endDecorator={<ArrowDropDownIcon />}
                   sx={{
                     '& svg': {
                       transition: '0.2s',
                       transform:
-                        loan === 'desc' ? 'rotate(0deg)' : 'rotate(180deg)',
+                        medicine === 'desc' ? 'rotate(0deg)' : 'rotate(180deg)',
                     },
                   }}
                 >
                   Date
                 </Link>
-              </th>
+              </th> */}
               <th style={{ width: 140, padding: '12px 6px' }}>Tx</th>
-              <th style={{ width: 120, padding: '12px 6px' }}>Type of loan</th>
-              <th style={{ width: 120, padding: '12px 6px' }}>Place</th>
-              <th style={{ width: 120, padding: '12px 6px' }}>Principle Amount</th>
-              <th style={{ width: 60, padding: '12px 6px' }}>Interest</th>
-              <th style={{ width: 140, padding: '12px 6px' }}>Lender/Borrower Platform Id</th>
+              <th style={{ width: 140, padding: '12px 6px' }}>Medicine Id</th>
+              <th style={{ width: 120, padding: '12px 6px' }}>Name</th>
+              <th style={{ width: 120, padding: '12px 6px' }}>Price</th>
+              <th style={{ width: 120, padding: '12px 6px' }}>Quantity</th>
+              <th style={{ width: 60, padding: '12px 6px' }}>Image</th>
+              <th style={{ width: 140, padding: '12px 6px' }}>Description</th>
               <th style={{ width: 120, padding: '12px 6px' }}>Status</th>
             </tr>
           </thead>
           <tbody>            
-            {stableSort(rows, getComparator(loan, '_id')).map((row) => (
+            {stableSort(rows, getComparator(medicine, '_id')).map((row) => (
               <tr key={row._id}>
                 <td style={{ textAlign: 'center', width: 120 }}>
                   <Checkbox
@@ -336,30 +339,36 @@ export default function LoanTable() {
                     sx={{ verticalAlign: 'text-bottom' }}
                   />
                 </td>
-                <td>
+                {/* <td>
                   <Typography level="body-xs">{row.date}</Typography>
-                </td>
+                </td> */}
                 <td>
                   <Link level="body-xs" component="button">
                     {row._id}
                   </Link>
                 </td>
                 <td>
-                  <Typography level="body-xs">{row.typeOfLoan}</Typography>
+                  <Typography level="body-xs">{row.medicineId}</Typography>
                 </td>
                 <td>
-                  <Typography level="body-xs">{row.place}</Typography>
+                  <Typography level="body-xs">{row.name}</Typography>
                 </td>
                 <td>
-                  <Typography level="body-xs">{row.principle}</Typography>
+                  <Typography level="body-xs">{row.price}</Typography>
                 </td>
                 <td>
-                  <Typography level="body-xs">{row.interest}</Typography>
+                  <Typography level="body-xs">{row.quantity}</Typography>
                 </td>
                 <td>
-                  <Typography level="body-xs">{row.platformId}</Typography>
+                  <Typography level="body-xs">{row.image}</Typography>
                 </td>
-                {row.status === "approvalPending"  ? (
+                <td>
+                  <Typography level="body-xs">{row.description}</Typography>
+                </td>
+                <td>
+                  <Typography level="body-xs">{row.status}</Typography>
+                </td>
+                {/* {row.status === "approvalPending"  ? (
                   <td>
                     <Button
                       variant="solid"
@@ -392,7 +401,7 @@ export default function LoanTable() {
                     >
                       {row.status}
                     </Chip>
-                  </td>)}
+                  </td>)} */}
                 {/* <td>
                   <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
                     <Link level="body-xs" component="button">

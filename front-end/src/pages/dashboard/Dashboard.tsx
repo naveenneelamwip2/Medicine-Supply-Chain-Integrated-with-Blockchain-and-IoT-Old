@@ -13,8 +13,8 @@ import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded';
 import Add from '@mui/icons-material/Add';
 
 import Sidebar from './components/Sidebar';
-import LoanTable from './components/LoanTable';
-import LoanList from './components/LoanList';
+import MedicineTable from './components/MedicineTable';
+import MedicineList from './components/MedicineList';
 import Header from './components/Header';
 import { useNavigate } from 'react-router-dom';
 
@@ -62,7 +62,7 @@ export default function Dashboard() {
                 <HomeRoundedIcon />
               </Link>
               <Typography color="primary" fontWeight={500} fontSize={12}>
-                Loans
+                Medicines
               </Typography>
             </Breadcrumbs>
           </Box>
@@ -78,19 +78,19 @@ export default function Dashboard() {
             }}
           >
             <Typography level="h2" component="h1">
-              Loans
+              Medicines
             </Typography>
             <Button
               color="primary"
               startDecorator={<Add />}
               size="sm"
-              onClick={()=>{navigate("/create-loan")}}
+              onClick={()=>{navigate("/create-medicine")}}
             >
-              Secure New Loan in Blockchain
+              Secure New Medicine in Blockchain
             </Button>
           </Box>
-          <LoanTable />
-          <LoanList />
+          <MedicineTable />
+          <MedicineList />
         </Box>
       </Box>
     </CssVarsProvider>

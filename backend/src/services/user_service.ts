@@ -4,9 +4,9 @@ import { User } from '@/models/user';
 export class UserService {
 
     async addUser(user: User) {
-        user.platformId = (Math.floor(Math.random()*90000) + 10000).toString();
-        const userObj = new UserSchema(user);
-        return await userObj.save();
+        // user.platformId = (Math.floor(Math.random()*90000) + 10000).toString();
+        // const userObj = new UserSchema(user);
+        // return await userObj.save();
     }
 
     async getUserByPlatformId(id: string) {

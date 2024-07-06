@@ -4,7 +4,7 @@ import SignInSide from "./pages/SignInSide";
 import Dashboard from "./pages/dashboard/Dashboard";
 import MyProfile from './pages/dashboard/components/MyProfile';
 import './App.css';
-import CreateLoan from './pages/dashboard/CreateLoan';
+import CreateMedicine from './pages/dashboard/CreateMedicine';
 
 function App() {
   return (
@@ -13,9 +13,9 @@ function App() {
         <Routes>
           <Route path="/"  Component={SignInSide} />
           <Route path="/dashboard"  Component={Dashboard} />
-          <Route path="/loans"  Component={Dashboard} />
+          <Route path="/medicines"  Component={Dashboard} />
           <Route path="/profile-dashboard"  Component={MyProfile} />
-          <Route path="/create-loan"  Component={CreateLoan} />
+          <Route path="/create-medicine"  Component={CreateMedicine} />
         </Routes>
       </Router>
     </CssVarsProvider>

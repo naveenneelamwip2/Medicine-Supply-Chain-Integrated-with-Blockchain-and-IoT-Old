@@ -22,13 +22,11 @@ import axios from "axios";
 import { Sheet } from '@mui/joy';
 
 interface FormElements extends HTMLFormControlsCollection {
-    DOB: any;
     name: any;
-    platformId: any;
-    userSecret: any;
-    contactNumber: any;
     email: HTMLInputElement;
     password: HTMLInputElement;
+    contactNumber: any;
+    address: any;
     organization: HTMLInputElement;
 }
 interface SignInFormElement extends HTMLFormElement {
@@ -127,7 +125,7 @@ export default function SignInSide() {
                             <IconButton variant="soft" color="primary" size="sm">
                                 <BadgeRoundedIcon />
                             </IconButton>
-                            <Typography level="title-lg">Naveen Neelam</Typography>
+                            <Typography level="title-lg">Wipro Limited POC</Typography>
                         </Box>
                         <ColorSchemeToggle />
                     </Box>
@@ -261,9 +259,6 @@ export default function SignInSide() {
                                             name: formElements.name.value,
                                             emailId: formElements.email.value,
                                             password: formElements.password.value,
-                                            contactNumber: formElements.contactNumber.value,
-                                            userSecret: formElements.userSecret.value,
-                                            DOB: formElements.DOB.value,
                                             organization: formElements.organization.value,
                                         };
                                         //   alert(JSON.stringify(data, null, 2));
@@ -276,24 +271,12 @@ export default function SignInSide() {
                                         <Input type="text" name="name" />
                                     </FormControl>
                                     <FormControl required>
-                                        <FormLabel>Date of birth</FormLabel>
-                                        <Input name="DOB" type="date" />
-                                    </FormControl>
-                                    <FormControl required>
                                         <FormLabel>Email</FormLabel>
                                         <Input type="email" name="email" />
                                     </FormControl>
                                     <FormControl required>
-                                        <FormLabel>Contact Number</FormLabel>
-                                        <Input type="text" name="contactNumber" />
-                                    </FormControl>
-                                    <FormControl required>
                                         <FormLabel>Password</FormLabel>
                                         <Input type="password" name="password" />
-                                    </FormControl>
-                                    <FormControl required>
-                                        <FormLabel>Your secret</FormLabel>
-                                        <Input type="password" name="userSecret" />
                                     </FormControl>
                                     <FormControl required>
                                         <FormLabel>Organization</FormLabel>
@@ -326,7 +309,7 @@ export default function SignInSide() {
                     </Box>
                     <Box component="footer" sx={{ py: 3 }}>
                         <Typography level="body-xs" textAlign="center">
-                            © Naveen Neelam {new Date().getFullYear()}
+                            © Wipro Limited {new Date().getFullYear()}
                         </Typography>
                     </Box>
                 </Box>

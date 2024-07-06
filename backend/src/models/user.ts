@@ -16,26 +16,23 @@ export class User {
     contactNumber?: string;
 
     @Length(5)
-    userSecret?: string;
+    userId?: string;
 
     @Length(5)
-    platformId?: string;
-
-    @Length(5)
-    DOB?: string;
+    address?: string;
 
     @Length(5)
     organization?: string;
 
-    constructor(user: any) {
-        this._id = Number(user.id);
+    constructor(user: User) {
+        this._id = Number(user._id);
         this.name = user.name;
         this.emailId = user.emailId;
         this.password = user.password;
         this.contactNumber = user.contactNumber;
-        this.userSecret = user.userSecret;
-        this.platformId = user.platformId;
-        this.DOB = user.DOB;
+        this.userId = user.userId;
+        this.address = user.address;
+        this.organization = user.organization;
         this.organization = user.organization;
     }
 }

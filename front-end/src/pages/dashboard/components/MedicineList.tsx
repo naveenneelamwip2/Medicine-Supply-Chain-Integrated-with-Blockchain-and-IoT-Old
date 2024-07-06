@@ -108,7 +108,7 @@ function RowMenu() {
   );
 }
 
-export default function LoanList() {
+export default function MedicineList() {
   return (
     <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
       {listItems.map((listItem) => (
