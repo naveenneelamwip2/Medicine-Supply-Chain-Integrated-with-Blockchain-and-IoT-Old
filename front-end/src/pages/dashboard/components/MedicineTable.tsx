@@ -1,29 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import * as React from 'react';
 import { ColorPaletteProp } from '@mui/joy/styles';
-import Avatar from '@mui/joy/Avatar';
-import Box from '@mui/joy/Box';
-import Button from '@mui/joy/Button';
-import Chip from '@mui/joy/Chip';
-import Divider from '@mui/joy/Divider';
-import FormControl from '@mui/joy/FormControl';
-import FormLabel from '@mui/joy/FormLabel';
-import Link from '@mui/joy/Link';
-import Input from '@mui/joy/Input';
-import Modal from '@mui/joy/Modal';
-import ModalDialog from '@mui/joy/ModalDialog';
-import ModalClose from '@mui/joy/ModalClose';
-import Select from '@mui/joy/Select';
-import Option from '@mui/joy/Option';
-import Table from '@mui/joy/Table';
-import Sheet from '@mui/joy/Sheet';
-import Checkbox from '@mui/joy/Checkbox';
+import { Typography, Avatar, Box, Button, Chip, Divider, FormControl, FormLabel, Link, Input, Modal, ModalDialog, ModalClose, Select, Option, Table, Sheet, Checkbox } from '@mui/joy';
 import IconButton, { iconButtonClasses } from '@mui/joy/IconButton';
-import Typography from '@mui/joy/Typography';
-import Menu from '@mui/joy/Menu';
-import MenuButton from '@mui/joy/MenuButton';
-import MenuItem from '@mui/joy/MenuItem';
-import Dropdown from '@mui/joy/Dropdown';
+// import Menu from '@mui/joy/Menu';
+// import MenuButton from '@mui/joy/MenuButton';
+// import MenuItem from '@mui/joy/MenuItem';
+// import Dropdown from '@mui/joy/Dropdown';
 
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import SearchIcon from '@mui/icons-material/Search';
@@ -102,14 +85,14 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
 
 interface IMedicine {
   _id: string;
-  medicineId : string;
+  medicineId: string;
   name: string;
-  price : string;
-  quantity : string;
-  image : string;
-  description : string;
-  lastUpdateDate : string;
-  status : string;
+  price: string;
+  quantity: string;
+  image: string;
+  description: string;
+  lastUpdateDate: string;
+  status: string;
 }
 
 
@@ -139,9 +122,9 @@ export default function MedicineTable() {
     fetchData();
   }, []);
 
-  async function approvalHandler(data:any) {
+  async function approvalHandler(data: any) {
     try {
-      const { data: response } = await axios.put('/medicine',data);
+      const { data: response } = await axios.put('/medicine', data);
       alert("Medicine approved ")
       navigate("/medicines");
     } catch (error: any) {
@@ -320,7 +303,7 @@ export default function MedicineTable() {
               <th style={{ width: 120, padding: '12px 6px' }}>Status</th>
             </tr>
           </thead>
-          <tbody>            
+          <tbody>
             {stableSort(rows, getComparator(medicine, '_id')).map((row) => (
               <tr key={row._id}>
                 <td style={{ textAlign: 'center', width: 120 }}>
