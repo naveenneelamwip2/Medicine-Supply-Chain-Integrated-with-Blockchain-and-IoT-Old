@@ -3,6 +3,8 @@ import { Medicine } from '@/models/medicine';
 import { singleton } from "fortjs";
 import keccak256 from "keccak256";
 import { UserService } from "./user_service";
+import { ethers } from 'ethers';
+import { medicineContractAbi } from './contract_abi';
 
 interface IUpdateMedicine {
     _id: string;
@@ -10,9 +12,21 @@ interface IUpdateMedicine {
 }
 
 export class MedicineService {
+    provider_url = process.env.provider_url
+    provider_key = process.env.provider_key
+
+    contractAddress = process.env.user_contract;
+
+    provider = new ethers.JsonRpcProvider(this.provider_url)
+    signer = new ethers.Wallet(this.provider_key, this.provider)
+
+    userAddress = this.signer.address
+
+    contract = new ethers.Contract(this.contractAddress, medicineContractAbi, this.provider)
+    contractWithSigner = this.contract.connect(this.signer)
 
     userService: UserService;
-    constructor(@singleton(UserService) userService: UserService){
+    constructor(@singleton(UserService) userService: UserService) {
         this.userService = new UserService;
     }
 
@@ -44,8 +58,6 @@ export class MedicineService {
     }
 
     async updateMedicine(medicine: any) {
-        if(medicine.status === "approved") medicine.status="Paid"
-
         // const updateMedicine = await MedicineSchema.updateOne({ _id: medicine._id }, {
         //     status: medicine.status
         // });

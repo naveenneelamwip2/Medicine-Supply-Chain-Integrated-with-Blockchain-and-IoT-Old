@@ -1,7 +1,21 @@
 import { UserSchema } from "@/db_schemas/user";
 import { User } from '@/models/user';
+import { ethers } from 'ethers';
+import { userContractAbi } from './contract_abi'
 
 export class UserService {
+    provider_url = process.env.provider_url
+    provider_key = process.env.provider_key
+
+    contractAddress = process.env.user_contract;
+
+    provider = new ethers.JsonRpcProvider(this.provider_url)
+    signer = new ethers.Wallet(this.provider_key, this.provider)
+
+    userAddress = this.signer.address
+
+    contract = new ethers.Contract(this.contractAddress, userContractAbi, this.provider)
+    contractWithSigner = this.contract.connect(this.signer)
 
     async addUser(user: User) {
         // user.platformId = (Math.floor(Math.random()*90000) + 10000).toString();
@@ -10,12 +24,12 @@ export class UserService {
     }
 
     async getUserByPlatformId(id: string) {
-        const user = await UserSchema.findOne({platformId: id});
+        const user = await UserSchema.findOne({ platformId: id });
         return user;
     }
 
     static async getUserByEmail(email: string) {
-        const user = await UserSchema.findOne({emailId:email});
+        const user = await UserSchema.findOne({ emailId: email });
         return user;
     }
 
