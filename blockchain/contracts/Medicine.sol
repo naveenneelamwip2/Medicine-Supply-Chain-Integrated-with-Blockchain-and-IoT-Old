@@ -11,6 +11,7 @@ contract MedicineTracking is ERC721Upgradeable, OwnableUpgradeable {
     }
 
     struct Medicine {
+        string userId;
         string name;
         uint256 price;
         uint256 quantity;
@@ -22,11 +23,11 @@ contract MedicineTracking is ERC721Upgradeable, OwnableUpgradeable {
 
     mapping(uint256 => Medicine) private medicines;
 
-    event MedicineUpdated(uint256 medicineId, string name, uint256 price, uint256 quantity, string image, string description, uint256 lastUpdateDate, string status);
+    event MedicineUpdated(string userId, uint256 medicineId, string name, uint256 price, uint256 quantity, string image, string description, uint256 lastUpdateDate, string status);
 
-    function mintMedicine(address to, uint256 medicineId, string memory name, uint256 price, uint256 quantity, string memory image, string memory description, string memory status) public onlyOwner {
+    function mintMedicine(address to, string memory userId, uint256 medicineId, string memory name, uint256 price, uint256 quantity, string memory image, string memory description, string memory status) public onlyOwner {
         _mint(to, medicineId);
-        medicines[medicineId] = Medicine(name, price, quantity, image, description, block.timestamp, status);
+        medicines[medicineId] = Medicine(userId, name, price, quantity, image, description, block.timestamp, status);
     }
 
     function getMedicineDetails(uint256 medicineId) public view returns(Medicine memory){
@@ -34,7 +35,8 @@ contract MedicineTracking is ERC721Upgradeable, OwnableUpgradeable {
         return medicine;
     }
 
-    function updateMedicineDetails(uint256 medicineId, string memory name, uint256 price, uint256 quantity, string memory image, string memory description, string memory status) public onlyOwner {
+    function updateMedicineDetails(string memory userId, uint256 medicineId, string memory name, uint256 price, uint256 quantity, string memory image, string memory description, string memory status) public onlyOwner {
+        medicines[medicineId].userId = userId;
         medicines[medicineId].name = name;
         medicines[medicineId].price = price;
         medicines[medicineId].quantity = quantity;
@@ -42,6 +44,6 @@ contract MedicineTracking is ERC721Upgradeable, OwnableUpgradeable {
         medicines[medicineId].description = description;
         medicines[medicineId].lastUpdateDate = block.timestamp;
         medicines[medicineId].status = status;
-        emit MedicineUpdated(medicineId, name, price, quantity, image, description, block.timestamp, status);
+        emit MedicineUpdated(userId, medicineId, name, price, quantity, image, description, block.timestamp, status);
     }
 }

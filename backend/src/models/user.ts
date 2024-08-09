@@ -33,6 +33,5 @@ export class User {
         this.userId = user.userId;
         this.address = user.address;
         this.organization = user.organization;
-        this.organization = user.organization;
     }
 }

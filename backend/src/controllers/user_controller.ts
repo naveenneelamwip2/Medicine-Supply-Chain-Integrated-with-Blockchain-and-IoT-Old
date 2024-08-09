@@ -28,6 +28,7 @@ export class UserController extends Controller {
     @guards(UserValidatorGuard)
     async addUser() {
         try{
+            console.log("request received to add user");
             let res = await UserService.getUserByEmail(this.data.user.emailId)
     
             if(res) return jsonResult({"message":"user already existed with same email"}, HTTP_STATUS_CODE.Forbidden);
