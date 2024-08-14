@@ -12,19 +12,19 @@ contract User is ERC721Upgradeable, OwnableUpgradeable {
 
     mapping(string => string) private userHashes;
 
-    event UserDetailsUpdated(string userId, string userHash);
+    event UserDetailsUpdated(string emailId, string userHash);
 
-    function mintUser(string memory userId, string memory userHash) public onlyOwner {
-        userHashes[userId] = userHash;
-        emit UserDetailsUpdated(userId, userHash);
+    function mintUser(string memory emailId, string memory userHash) public onlyOwner {
+        userHashes[emailId] = userHash;
+        emit UserDetailsUpdated(emailId, userHash);
     }
 
-    function getUserHash(string memory userId) public view returns (string memory) {
-        return userHashes[userId];
+    function getUserHash(string memory emailId) public view returns (string memory) {
+        return userHashes[emailId];
     }
 
-    function updateUserDetails(string memory userId, string memory userHash) public onlyOwner {
-        userHashes[userId] = userHash;
-        emit UserDetailsUpdated(userId, userHash);
+    function updateUserDetails(string memory emailId, string memory userHash) public onlyOwner {
+        userHashes[emailId] = userHash;
+        emit UserDetailsUpdated(emailId, userHash);
     }
 }

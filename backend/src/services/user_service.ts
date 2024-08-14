@@ -5,7 +5,9 @@ require('dotenv').config()
 import { createHash } from 'crypto'
 import * as CryptoJS from 'crypto-js';
 import axios from 'axios';
+import { Client } from '@web3-storage/w3up-client';
 
+// Eth connect
 const provider_url = process.env.provider_url
 const provider_key = process.env.provider_key
 
@@ -20,54 +22,32 @@ const contract = new ethers.Contract(contractAddress, userContractAbi, provider)
 const contractWithSigner = contract.connect(signer) as any;
 
 export class UserService {
-    
-    async generateUniqueHash(input: string) {
-        const hash = createHash('sha256');
-        hash.update(input);
-        return hash.digest('hex'); 
-    }
-    
+
+    // async generateUniqueHash(input: string) {
+    //     const hash = createHash('sha256');
+    //     hash.update(input);
+    //     return hash.digest('hex');
+    // }
     async storeDetailsOnIPFS(ipfsData) {
-        const url = 'https://ipfs.infura.io:5001/api/v0/pin/add?arg=QmeGAVddnBSnKc1DLE7DLV9uuTqo5F7QbaveTjr45JUdQn';
-        const projectId = process.env.ipfs_key;
-        const projectKey = process.env.ipfs_secret;
-        const response = await axios.post(url, JSON.stringify(ipfsData), {
-            auth: {
-              username: process.env.ipfs_key,
-              password: process.env.ipfs_secret
-            }
-          });
-          
-        // const { cid } = await ipfs.add(JSON.stringify(ipfsData));
-        console.log(response);
-        return response.toString(); 
+
+        return
     }
 
-    async retrieveDetailsFromIPFS(key) {
-        const url = `https://ipfs.infura.io:5001/api/v0/cat?arg=${key}`;
+    async retrieveDetailsFromIPFS(CID) {
 
-        const response = await axios.post(url, {}, {
-            auth: {
-              username: process.env.ipfs_key,
-              password: process.env.ipfs_secret
-            }
-          });
-          
-        // const { cid } = await ipfs.add(JSON.stringify(ipfsData));
-
-        return response.toString(); 
+        return
     }
 
 
-    async addUser(user: User){
-        const userId = this.generateUniqueHash(user.emailId);
+    async addUser(user: User) {
 
-        const encrypted = await this.encrypt(user.name);
-        const decrypted = await this.decrypt(encrypted);
-        
-        const userHash = await this.storeDetailsOnIPFS(user); 
+        // encryption part for user json can taken later after completing ipfs storage
+        // const encrypted = await this.encrypt(user.name);
+        // const decrypted = await this.decrypt(encrypted);
 
-        const tx = await contractWithSigner.mintUser(userId, userHash);
+        const userCID = await this.storeDetailsOnIPFS(user);
+
+        const tx = await contractWithSigner.mintUser(user.emailId, userCID);
         await tx.wait();
         console.log(`User creation ${tx}`);
     }
@@ -75,7 +55,7 @@ export class UserService {
     static async getUserByEmail(email: string) {
 
         return null
-//naveen
+        //naveen
         const userHash = await contractWithSigner.getUserHash(email);
         const response = await this.retrieveDetailsFromIPFS(userHash) as any;
         const userDetails = JSON.parse(response.toString());
